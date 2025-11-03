@@ -8,13 +8,17 @@
         .output { background: #f7f7f7; border: 1px solid #ccc; padding: 10px; margin-top: 20px; word-break: break-all;}
         button { margin-top: 10px; padding: 10px 25px; font-size: 16px;}
         label { font-weight: bold;}
+        .button-group { margin-top: 10px; }
     </style>
 </head>
 <body>
-    <h2>Column to CSV Converter </h2>
+    <h2>Column to CSV Converter</h2>
     <p>Paste your column data (one value per line) below:</p>
     <textarea id="columnInput" placeholder="Paste column data here..."></textarea><br>
-    <button onclick="convertToCSV()">Convert</button>
+    <div class="button-group">
+        <button onclick="convertToCSV()">Convert</button>
+        <button onclick="clearAll()">Clear</button>
+    </div>
 
     <div class="output">
         <label>Comma Separated Value:</label>
@@ -32,13 +36,18 @@
             const input = document.getElementById('columnInput').value;
             const lines = input.split('\n').map(line => line.trim()).filter(line => line !== '');
 
-            const csv = lines.join(',');
+            const csv = lines.join(', ');
             document.getElementById('csvOutput').innerText = csv;
 
-            const singleQuotedCsv = lines.map(val => `'${val}'`).join(',');
+            const singleQuotedCsv = lines.map(val => `'${val}'`).join(', ');
             document.getElementById('csvSingleQuoteOutput').innerText = singleQuotedCsv;
+        }
+
+        function clearAll() {
+            document.getElementById('columnInput').value = '';
+            document.getElementById('csvOutput').innerText = '';
+            document.getElementById('csvSingleQuoteOutput').innerText = '';
         }
     </script>
 </body>
-
 </html>
