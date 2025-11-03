@@ -36,10 +36,10 @@
             const input = document.getElementById('columnInput').value;
             const lines = input.split('\n').map(line => line.trim()).filter(line => line !== '');
 
-            const csv = lines.join(', ');
+            const csv = lines.join(',');
             document.getElementById('csvOutput').innerText = csv;
 
-            const singleQuotedCsv = lines.map(val => `'${val}'`).join(', ');
+            const singleQuotedCsv = lines.map(val => `'${val}'`).join(',');
             document.getElementById('csvSingleQuoteOutput').innerText = singleQuotedCsv;
         }
 
