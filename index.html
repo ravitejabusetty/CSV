@@ -5,48 +5,57 @@
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; }
         textarea { width: 100%; height: 120px; font-size: 16px; }
-        .output { background: #f7f7f7; border: 1px solid #ccc; padding: 10px; margin-top: 20px; word-break: break-all;}
-        button { margin-top: 10px; padding: 10px 25px; font-size: 16px;}
-        label { font-weight: bold;}
+        .output { background: #f7f7f7; border: 1px solid #ccc; padding: 10px; margin-top: 20px; word-break: break-all; }
+        button { margin-top: 10px; padding: 10px 25px; font-size: 16px; }
+        label { font-weight: bold; }
         .button-group { margin-top: 10px; }
+        .counter { margin-top: 10px; font-size: 15px; color: #046E38; }
     </style>
 </head>
 <body>
     <h2>Column to CSV Converter</h2>
     <p>Paste your column data (one value per line) below:</p>
-    <textarea id="columnInput" placeholder="Paste column data here..."></textarea><br>
+    <textarea id="columnInput" placeholder="Paste column data here..." oninput="updateCounter()"></textarea><br>
     <div class="button-group">
         <button onclick="convertToCSV()">Convert</button>
         <button onclick="clearAll()">Clear</button>
     </div>
-
+    <div class="counter">
+        Count: <span id="counterValue">0</span>
+    </div>
     <div class="output">
         <label>Comma Separated Value:</label>
         <div id="csvOutput"></div>
     </div>
-
     <div class="output">
         <label>Single Quote Comma Separated Value:</label>
         <div id="csvSingleQuoteOutput"></div>
     </div>
-
     <script>
-        function convertToCSV() {
+        
+        function getLines() {
             const input = document.getElementById('columnInput').value;
-            const lines = input.split('\n').map(line => line.trim()).filter(line => line !== '');
-
-            const csv = lines.join(',');
-            document.getElementById('csvOutput').innerText = csv;
-
-            const singleQuotedCsv = lines.map(val => `'${val}'`).join(',');
-            document.getElementById('csvSingleQuoteOutput').innerText = singleQuotedCsv;
+            return input.split('\n').map(line => line.trim()).filter(line => line !== '');
         }
-
+        function convertToCSV() {
+            const lines = getLines();
+            document.getElementById('csvOutput').innerText = lines.join(', ');
+            document.getElementById('csvSingleQuoteOutput').innerText = lines.map(val => `'${val}'`).join(', ');
+            document.getElementById('counterValue').innerText = lines.length;
+        }
+        function updateCounter() {
+            const lines = getLines();
+            document.getElementById('counterValue').innerText = lines.length;
+        }
         function clearAll() {
             document.getElementById('columnInput').value = '';
             document.getElementById('csvOutput').innerText = '';
             document.getElementById('csvSingleQuoteOutput').innerText = '';
+            document.getElementById('counterValue').innerText = '0';
         }
     </script>
 </body>
 </html>
+
+
+
